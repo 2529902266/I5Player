@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -24,10 +25,18 @@
                     data: "do=get&v=" + $("input[id='search-kw']").val(),
                     async: true,
                     success: function (res) {
-                        var res1 = ""
+                        var res1 = "";
+                        var resheight = 0;
                         for (i in res) {
                             res1 = res1 + '<a href=javascript:play(' + res[i] + ')>' + i + '</a><br>';
+                            resheight += 50;
 
+                        }
+                        if (resheight > 300) {
+                            $("#searchres").css("height", 300 + "px");
+                            $("#searchres").css("overflow", 'auto');
+                        } else {
+                            $("#searchres").css("height", resheight + "px");
                         }
                         $("#searchres").html(
                             res1
@@ -51,8 +60,16 @@
                 async: true,
                 success: function (res) {
                     var res1 = ""
+                    var resheight = 0;
                     for (i in res) {
                         res1 = res1 + '<a target="_blank" href="' + res[i] + '">' + i + '</a><br>';
+                        resheight += 50;
+                    }
+                    if (resheight > 300) {
+                        $("#searchres").css("height", 300 + "px");
+                        $("#searchres").css("overflow", 'auto');
+                    } else {
+                        $("#searchres").css("height", resheight + "px");
                     }
                     $("#searchres").html(
                         res1
@@ -95,11 +112,13 @@
                         <button type="submit" id="search-btn" class="btn btn-default">搜索一下</button>
                     </div>
                     <div class="center-block" id="searchres"
-                        style="padding: 15px; border: 1px solid transparent;margin-bottom: 20px;margin-top: 20px;background: rgba(132, 131, 137, 0.67); color: #FFF; font-size:16px;text-align:center;display:none;">
+                        style="padding: 15px; border: 1px solid transparent;margin-bottom: 20px;margin-top: 20px;background: rgba(132, 131, 137, 0.67); color: #FFF; font-size:15px;text-align:left;display:none;">
                     </div>
                 </div>
             </div>
-            <div id="sb_foot"><span>©2019 i5看视频 本站不存储任何数据 | 不良内容举报请联系&#89;&#117;&#77;&#117;&#83;&#66;&#64;&#102;&#111;&#120;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</span></div>
+            <div id="sb_foot"><span>©2019 i5看视频 本站不存储任何数据 |
+                    不良内容举报请联系&#89;&#117;&#77;&#117;&#83;&#66;&#64;&#102;&#111;&#120;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</span>
+            </div>
         </section>
 
 </body>
