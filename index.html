@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="keywords" content="i5看视频">
+    <meta name="description" content="i5看视频">
+    <title>i5看视频</title>
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#search").css("height", ($(window).height()) + "px");
+            $("#search").css("margin-top", "-65px");
+            $('#search-btn').click(function () {
+                $("#searchres").hide();
+                $.ajax({
+                    type: "get",
+                    url: "./api.php",
+                    dataType: "json",
+                    data: "do=get&v=" + $("input[id='search-kw']").val(),
+                    async: true,
+                    success: function (res) {
+                        var res1 = ""
+                        for (i in res) {
+                            res1 = res1 + '<a href=javascript:play(' + res[i] + ')>' + i + '</a><br>';
+
+                        }
+                        $("#searchres").html(
+                            res1
+                        );
+                        $("#searchres").slideDown();
+                    },
+                    error: function (a) {
+                        alert("失败,请检查关键字。");
+                    }
+                });
+            });
+        });
+        function play(id) {
+
+            $("#searchres").hide();
+            $.ajax({
+                type: "get",
+                url: "./api.php",
+                dataType: "json",
+                data: "do=play&v=" + id,
+                async: true,
+                success: function (res) {
+                    var res1 = ""
+                    for (i in res) {
+                        res1 = res1 + '<a target="_blank" href="' + res[i] + '">' + i + '</a><br>';
+                    }
+                    $("#searchres").html(
+                        res1
+                    );
+                    $("#searchres").slideDown();
+                },
+                error: function (a) {
+                    alert("失败，请检查关键字。");
+                }
+            })
+        }
+    </script>
+    <link rel="stylesheet" href="./static/index.min.css">
+</head>
+
+<body id="page-index"
+    style="background: #000000 url(https://cn.bing.com/th?id=OHR.QingmingBridge_ZH-CN3844222543_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp)">
+
+
+    <header id="masthead" data-login-status="0">
+    </header>
+
+    <main>
+        <section id="search">
+            <div class="container">
+                <div class="absolute-center">
+                    <div class="logo center-block">
+                        <h1>
+                            <a href="./" title="i5看视频">
+                                <img src="./static/logo.png">
+                            </a>
+                        </h1>
+                    </div>
+                    <div class="search-form form-inline">
+                        <div class="form-group">
+                            <label for="search-kw" class="hidden"></label>
+                            <input type="search" id="search-kw" class="form-control" name="longurl" placeholder="飞驰人生"
+                                autocomplete="off">
+                        </div>
+                        <button type="submit" id="search-btn" class="btn btn-default">搜索一下</button>
+                    </div>
+                    <div class="center-block" id="searchres"
+                        style="padding: 15px; border: 1px solid transparent;margin-bottom: 20px;margin-top: 20px;background: rgba(132, 131, 137, 0.67); color: #FFF; font-size:16px;text-align:center;display:none;">
+                    </div>
+                </div>
+            </div>
+            <div id="sb_foot"><span>©2019 i5看视频 本站不存储任何数据 | 不良内容举报请联系&#89;&#117;&#77;&#117;&#83;&#66;&#64;&#102;&#111;&#120;&#109;&#97;&#105;&#108;&#46;&#99;&#111;&#109;</span></div>
+        </section>
+
+</body>
+
+</html>
