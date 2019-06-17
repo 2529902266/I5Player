@@ -1,7 +1,7 @@
 <?php
 header('Content-Type: text/html; charset=utf-8');
 const WEBSITE = 'http://www.okzyw.com/';
-const PLAYER = 'https://www.m3u8play.com/?play=';
+const PLAYER = './player/?play=';
 
 function curl_get($url)
 {
