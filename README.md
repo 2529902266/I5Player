@@ -1,4 +1,4 @@
-# I5看视频,轻量级影视搜索 [DeMo:P.I5.GS](https://p.i5.gs/)  
+# I5看视频,轻量级影视搜索 [DeMo:http://17dianying.com.cn](http://17dianying.com.cn)  
 ![](./static/logo.png)
 
 
@@ -17,4 +17,4 @@
 -------------------
 >关于  
 此源码仅供个人学习使用，请勿用于商业用途，因此此带来的连带责任，由使用者个人承担  
-[Blog:BLog.I5.gS](https://blog.i5.gs)
+[Blog:坏男孩](http://huai.pub)
