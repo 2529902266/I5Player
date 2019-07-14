@@ -2,6 +2,13 @@
 header('Content-Type: text/html; charset=utf-8');
 const WEBSITE = 'http://www.okzyw.com/';
 const PLAYER = './player/?play=';
+$set = array(
+    'title' => 'I5看视频',
+    'keywords' => 'i5看视频,最新电影',
+    'desc' => 'I5看视频是一个轻量搜索。。',
+    'bg' => 'https://cn.bing.com/th?id=OHR.QingmingBridge_ZH-CN3844222543_1920x1080.jpg&rf=LaDigue_1920x1080.jpg&pid=hp',
+    'autokeywords'=>'1',
+);
 
 function curl_get($url)
 {
@@ -32,4 +39,12 @@ function curl_post($url = '', $param = '')
     $content = curl_exec($ch); //运行curl
     curl_close($ch);
     return $content;
+}
+
+function get_word(){
+    $url = "https://node.video.qq.com/x/api/vdefault_word";
+    if($word=json_decode(curl_get($url),true)['data'][0]['title']){
+        return $word;
+    }
+    else return "迪迦奥特曼";
 }

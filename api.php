@@ -4,20 +4,33 @@
  * @LastEditors: yumusb
  * @Description: 
  * @Date: 2019-04-25 09:24:02
- * @LastEditTime: 2019-04-26 10:59:46
+ * @LastEditTime: 2019-07-14 19:36:41
  */
 
 include 'common.php';
-function error($info = "ERROR")
+function echores($res, $code = 200)
 {
-    echo $info;
-    exit();
+    if (empty($res)) {
+        $res = "无结果";
+        $code = 404;
+    }
+    $res = array(
+        'status' => $code,
+        'res' => $res,
+    );
+    if ($code = 200) {
+        return json_encode($res);
+    } else {
+        return json_encode($res);
+        exit;
+    }
 }
 function filter($keyword)
 {
     $keyword = urldecode($keyword);
     if (is_numeric($keyword)) {
-        error();
+        echo echores($res = "你搞h?", $code = 500);
+        exit;
     }
     $blacklist = "韩国|车展|美女|范拍|真人秀|小姐|写真|自拍|美女|趣向|内衣|欧美|日韩|街拍";
     $encode = mb_detect_encoding("中国", array("ASCII", 'UTF-8', "GB2312", "GBK", 'BIG5'));
@@ -25,7 +38,8 @@ function filter($keyword)
         $blacklist = iconv($encode, "UTF-8//IGNORE", $blacklist);
     }
     if (preg_match("/$blacklist/", $keyword)) {
-        error("BLACKLIST");
+        echo echores($res = "你搞h?", $code = 500);
+        exit;
     } else {
         return $keyword;
     }
@@ -42,14 +56,14 @@ function get_movie($keyword)
     if ($encode !== "UTF-8") {
         $blacklist = iconv($encode, "UTF-8//IGNORE", $blacklist);
     }
-    preg_match_all('/<a href="\/\?m=vod-detail-id-(\d+?).html" target="_blank">(.*?)<\/a>(?!.*('.$blacklist.'))/', $data, $res);
+    preg_match_all('/<a href="\/\?m=vod-detail-id-(\d+?).html" target="_blank">(.*?)<\/a>(?!.*(' . $blacklist . '))/', $data, $res);
     $urls = $res[1];
     $titles = $res[2];
     $res = array();
     for ($i = 0; $i < count($urls); $i++) {
         $res[$titles[$i]] = $urls[$i];
     }
-    return json_encode($res);
+    return echores($res);
 }
 function play($id)
 {
@@ -65,15 +79,17 @@ function play($id)
         $tmptitle = explode('$', $url)[0];
         $res[$tmptitle] = PLAYER . $tmpurl;
     }
-    return json_encode($res);
+    return echores($res);
 }
 
 if (isset($_SERVER['HTTP_REFERER'])) {
     if (stripos($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST']) === false) {
-        error("You kinding me");
+        echo echores($res = "禁止盗用API", $code = 500);
+        exit;
     }
 } else {
-    error("f**K");
+    echo echores($res = "禁止直接访问!", $code = 500);
+    exit;
 }
 
 if (isset($_GET['do']) && isset($_GET['v'])) {
@@ -84,15 +100,18 @@ if (isset($_GET['do']) && isset($_GET['v'])) {
             if ($keyword = filter($_GET['v'])) {
                 echo get_movie($keyword);
             } else {
-                error("EXCUSE ME??");
+                echo echores($res = "不明白的姿势", $code = 500);
+                exit;
             }
             break;
         case "play":
             echo play($v);
             break;
         default:
-            error();
+            echo echores($res = "不明白的姿势", $code = 500);
+            exit;
     }
 } else {
-    error();
+    echo echores($res = "禁止直接访问!", $code = 500);
+    exit;
 }
