@@ -83,6 +83,7 @@ if ($set['autokeywords'] == 1) {
                 async: true,
                 success: function(res) {
                     if (res.status == 200) {
+                    	res=res.res;
                         var res1 = ""
                         var resheight = 0;
                         for (i in res) {
@@ -132,7 +133,7 @@ if ($set['autokeywords'] == 1) {
                     <div class="search-form form-inline">
                         <div class="form-group">
                             <label for="search-kw" class="hidden"></label>
-                            <input type="search" id="search-kw" class="form-control" name="longurl" placeholder="<?php echo get_word(); ?>" autocomplete="off">
+                            <input type="search" id="search-kw" class="form-control" name="longurl" placeholder="<?php echo $word; ?>" autocomplete="off">
                         </div>
                         <button type="submit" id="search-btn" class="btn btn-default">搜索一下</button>
                     </div>
