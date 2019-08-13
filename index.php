@@ -26,8 +26,8 @@ if ($set['autokeywords'] == 1) {
     <meta name="keywords" content="<?php echo $set['keywords']; ?>">
     <meta name="description" content="<?php echo $set['desc']; ?>">
     <title><?php echo $set['title']; ?></title>
-    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="//cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
             $("#search").css("height", ($(window).height()) + "px");
@@ -141,7 +141,7 @@ if ($set['autokeywords'] == 1) {
                     </div>
                 </div>
             </div>
-            <div id="sb_foot"><span>©2019 本站不存储任何数据,所有内容均来自第三方网络资源 | 仅供个人学习使用,禁止用于非法用途!</span>
+            <div id="sb_foot"><span>©2019 仅供个人学习交流 | <a href="https://huai.pub/">博客</a> | <a href="https://github.com/yumusb/I5Player">源码下载</a> | <a href="http://www.renzhijia.com/">免费空间</a></span>
             </div>
         </section>
 

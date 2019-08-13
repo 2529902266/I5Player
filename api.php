@@ -51,6 +51,7 @@ function get_movie($keyword)
     $post = array("wd" => $keyword, "submit" => "search");
 
     $data =  curl_post($url, $post);
+    //echo $data;
     $blacklist = "福利片|伦理片";
     $encode = mb_detect_encoding("中国", array("ASCII", 'UTF-8', "GB2312", "GBK", 'BIG5'));
     if ($encode !== "UTF-8") {

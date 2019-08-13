@@ -10,36 +10,90 @@ $set = array(
     'autokeywords'=>'1',
 );
 
-function curl_get($url)
+function curl_get($url, $ip = true)
 {
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Linux; U; Android 4.4.1; zh-cn; R815T Build/JOP40D) AppleWebKit/533.1 (KHTML, like Gecko)Version/4.0 MQQBrowser/4.5 Mobile Safari/533.1');
-    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-    $content = curl_exec($ch);
+
+    $ch = curl_init();
+    $defaultOptions = defaultOptions($url, dirname($url), $ip);
+    curl_setopt_array($ch, $defaultOptions);
+    $chContents = curl_exec($ch);
+    $curlInfo = curl_getinfo($ch);
+
     curl_close($ch);
-    return ($content);
+
+    if ($curlInfo['http_code'] != 200) {
+        $contents = $curlInfo['http_code'];
+    } else {
+        $contents = $chContents;
+    }
+
+    return $contents;
 }
 
-function curl_post($url = '', $param = '')
+
+function randIp()
 {
-    if (empty($url) || empty($param)) {
-        return false;
-    }
-    $postUrl = $url;
-    $curlPost = $param;
-    $ch = curl_init(); //初始化curl
-    curl_setopt($ch, CURLOPT_URL, $postUrl); //抓取指定网页
-    curl_setopt($ch, CURLOPT_HEADER, 0); //设置header
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //要求结果为字符串且输出到屏幕上
-    curl_setopt($ch, CURLOPT_POST, 1); //post提交方式
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $curlPost);
-    $content = curl_exec($ch); //运行curl
-    curl_close($ch);
-    return $content;
+    return mt_rand(20, 250) . "." . mt_rand(20, 250) . "." . mt_rand(20, 250) . "." . mt_rand(20, 250);
 }
+
+function defaultOptions($url, $httpReferer, $ip = false)
+{
+    if (!$ip) {
+        $ip = randIp();
+    }
+
+    return [
+        CURLOPT_URL => $url,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_REFERER => $httpReferer,
+        CURLOPT_HTTPHEADER => [
+            "Accept:text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            "Accept-Language:zh-CN,en-US;q=0.7,en;q=0.3",
+            "User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36",
+            "HTTP_X_FORWARDED_FOR:{$ip}",
+            "CLIENT-IP:{$ip}"
+        ]
+    ];
+}
+function curl_post($url, $param = '',$ip = true)
+{
+
+    $ch = curl_init();
+    $defaultOptions = defaultOptions($url, dirname($url), $ip);
+    curl_setopt_array($ch, $defaultOptions);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $param);
+    $chContents = curl_exec($ch);
+    $curlInfo = curl_getinfo($ch);
+    curl_close($ch);
+
+
+    if ($curlInfo['http_code'] != 200) {
+        $contents = $curlInfo['http_code'];
+    } else {
+        $contents = $chContents;
+    }
+    return $contents;
+}
+// function curl_post($url = '', $param = '')
+// {
+//     if (empty($url) || empty($param)) {
+//         return false;
+//     }
+//     $postUrl = $url;
+//     $curlPost = $param;
+//     $ch = curl_init(); //初始化curl
+//     curl_setopt($ch, CURLOPT_URL, $postUrl); //抓取指定网页
+//     ##curl_setopt($ch, CURLOPT_HEADER, 0); //设置header
+
+//     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //要求结果为字符串且输出到屏幕上
+//     curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Linux; U; Android 4.4.1; zh-cn; R815T Build/JOP40D) AppleWebKit/533.1 (KHTML, like Gecko)Version/4.0 MQQBrowser/4.5 Mobile Safari/533.1');
+//     curl_setopt($ch, CURLOPT_POST, 1); //post提交方式
+//     curl_setopt($ch, CURLOPT_POSTFIELDS, $curlPost);
+//     $content = curl_exec($ch); //运行curl
+//     curl_close($ch);
+//     return $content;
+// }
 
 function get_word(){
     $url = "https://node.video.qq.com/x/api/vdefault_word";
