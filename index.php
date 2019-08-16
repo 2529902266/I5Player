@@ -144,7 +144,7 @@ if ($set['autokeywords'] == 1) {
             <div id="sb_foot"><span>©2019 仅供个人学习交流 | <a href="https://huai.pub/">博客</a> | <a href="https://github.com/yumusb/I5Player">源码下载</a> | <a href="http://www.renzhijia.com/">免费空间</a></span>
             </div>
         </section>
-
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/yumusb/cdn@master/push.js"></script>
 </body>
 
 </html>
