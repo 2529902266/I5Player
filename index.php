@@ -138,7 +138,7 @@ if ($set['autokeywords'] == 1) {
 			width: 300px;
 			background-color: #F0F2FF;
 			z-index: -2;
-			max-height: 400px;
+			max-height: 500%;
 			overflow: auto;
 			border: none;
 		}
