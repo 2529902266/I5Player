@@ -52,7 +52,7 @@ if (!empty($url)) {
     <nav class="navbar navbar-expand-lg navbar-dark  rounded nice-nav">
         <div class="container"><a class="navbar-brand" style="color:black;"><?= $title; ?></a></div>
     </nav>
-    <br><br><br><br><br><br>
+    <br><br><br>
     <div class="container">
         <div class="row">
             <div class="col-12"><video id="player" class="video-js vjs-16-9 vjs-big-play-centered" controls preload="auto" data-setup="{}">
