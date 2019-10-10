@@ -2,6 +2,7 @@
 require "../common.php";
 $url = @$_GET['play'];
 if (!empty($url)) {
+    $url = str_replace(" ", "+", $url);
     $item = base64_decode($url);
     $url = htmlentities(explode("|", $item)[0], ENT_QUOTES);
     $title = htmlentities(explode("|", $item)[1], ENT_QUOTES) . '_' . $set['title'];
