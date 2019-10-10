@@ -4,7 +4,7 @@
  * @LastEditors: yumusb
  * @Description: 
  * @Date: 2019-04-25 09:24:02
- * @LastEditTime: 2019-07-14 19:36:41
+ * @LastEditTime: 2019-10-10 15:40:07
  */
 
 include 'common.php';
@@ -62,11 +62,16 @@ function get_movie($keyword)
     $titles = $res[2];
     $res = array();
     for ($i = 0; $i < count($urls); $i++) {
-        $res[$titles[$i]] = $urls[$i];
+        $tmp['title'] = $titles[$i];
+        $tmp['url'] = $urls[$i];
+        $res[] = $tmp;
+        if (count($res) == 10) {
+            return echores($res);
+        }
     }
     return echores($res);
 }
-function play($id)
+function play($id, $title)
 {
     $id = intval($id);
     $url = WEBSITE . "?m=vod-detail-id-{$id}.html";
@@ -76,9 +81,10 @@ function play($id)
 
     $res = array();
     foreach ($urls as $url) {
-        $tmpurl = explode('$', $url)[1];
-        $tmptitle = explode('$', $url)[0];
-        $res[$tmptitle] = PLAYER . $tmpurl;
+
+        $tmp['title'] = explode('$', $url)[0];
+        $tmp['url'] = PLAYER . base64_encode(explode('$', $url)[1] . '|' . $tmp['title'] . '_' . $title);
+        $res[] = $tmp;
     }
     return echores($res);
 }
@@ -106,7 +112,7 @@ if (isset($_GET['do']) && isset($_GET['v'])) {
             }
             break;
         case "play":
-            echo play($v);
+            echo play($v, trim($_GET['title']));
             break;
         default:
             echo echores($res = "不明白的姿势", $code = 500);
